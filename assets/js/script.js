@@ -1,208 +1,251 @@
 $(document).ready(function() {
-	setTimeout(function() {
-		changeOpacity(".name");
-	}, 200);
 
-	setTimeout(function() {
-		changeOpacity("#intro");
-	}, 900);
+	var homepage = true
+    
+    if ($(window).width() < 768) {
+        window.location.replace("https://emilyzhong.github.io/mobile.html");
+    }
 
-	$("#nav > a").each(function(i, elem) {
-		setTimeout(function() {
-			changeOpacity($(elem));
-		}, 1500 + 300 * i);
+	// hover effects on home page
+	// 768 px for tablets, phones: no hover effect
+	if ( $(window).width() > 768) {
+		$("#left").hover(function() {
+			if (homepage) {
+				console.log("LEFT HOVER");
+				$("#left .name").css("color", "white");
+				$("#left .title").css("color", "white");
+				$("#leftcolor").animate({width: '100%'}, 200);
+			}
+		}, function() {
+			if (homepage) {
+				$("#leftcolor").stop(true).animate({width: 0}, 200);
+				$("#left .name").stop(true).css("color", "#323232");
+				$("#left .title").stop(true).css("color", "#323232");
+			}
+		});
+
+		$("#right").hover(function() {
+			if (homepage) {
+				$("#right .name").css("color", "white");
+				$("#right .title").css("color", "white");
+				$("#rightcolor").animate({width: '100%'}, 200);
+			}
+		}, function() {
+			if (homepage) {
+				$("#rightcolor").stop(true).animate({width: 0}, 200);
+				$("#right .name").stop(true).css("color", "#323232");
+				$("#right .title").stop(true).css("color", "#323232");
+			}
+		});
+	}
+
+	// CLICK EFFECTS ON HOME PAGE:
+	//showing about section
+	if ( $(window).width() > 768) {
+		$("#left").click(function() {
+			if (homepage) {
+				$("#content").animate({opacity: 1}, 300);
+				$("#left").animate({width: '70%'}, 300);
+				$("#left .name").css("color", "white");
+				$("#left .aboutsection").css("color", "white");
+				$("#leftcolor").animate({width: '100%'}, 300);
+				$("#right").animate({width: '30%'}, 300);
+				$(".title").fadeOut();
+				$(".aboutsection").fadeIn();
+				homepage = false
+			} else {
+				backtohome()
+			}
+		})
+
+		// showing work section
+		$("#right").click(function() {
+			if (homepage) {
+				$("#content").animate({opacity: 1}, 300);
+				$("#right").animate({width: '70%'}, 300);
+				$("#right .name").css("color", "white");
+				$("#rightcolor").animate({width: '100%'}, 300);
+				$("#left").animate({width: '30%'}, 300);
+				$(".title").fadeOut(); 
+				$(".work").fadeIn();
+				homepage = false;
+			} else {
+				backtohome();
+			}
+		})
+	} else {
+		$("#left").click(function() {
+			if (homepage) {
+				$("#content").animate({opacity: 1}, 300);
+				$("#left").animate({width: '100%'}, 300);
+				$(".name").fadeOut();
+				$("#right").fadeOut();
+				$("#left .aboutsection").css("color", "white");
+				$("#leftcolor").animate({width: '100%'}, 300);
+				$("#right").animate({width: '0%'}, 300);
+				$(".title").fadeOut();
+				$(".aboutsection").fadeIn();
+				$("#left .mobilenav").fadeIn();
+				console.log("mobile-left click")
+				homepage = false
+			} else {
+				backtohome()
+			}
+		})
+
+		// showing work section
+		$("#right").click(function() {
+			if (homepage) {
+				$("#content").animate({opacity: 1}, 300);
+				$("#right").animate({width: '100%'}, 300);
+				$(".name").fadeOut();
+				$("#rightcolor").animate({width: '100%'}, 300);
+				$("#left").animate({width: '0%'}, 300);
+				$(".title").fadeOut(); 
+				$(".work").fadeIn();
+				$("#left .mobilenav").fadeOut();
+				$("#right .mobilenav").fadeIn();
+				console.log("mobile-right click")
+				homepage = false
+			} else {
+				backtohome()
+			}
+		})
+	 }
+
+		$('.aboutsection').click(function(event){
+	    	event.stopPropagation();
+	 	});
+
+		$('.picturecontainer').click(function(event){
+	    	event.stopPropagation();
+	 	});
+
+	 	$('.textcontainer').click(function(event){
+	    	event.stopPropagation();
+	 	});
+
+
+	function backtohome() {
+		$("#content").animate({opacity: 0.8}, 300);
+		$(".aboutsection").fadeOut();
+		$(".work").fadeOut();
+		$(".title").fadeIn();
+		$("#right").animate({width: '50%'}, 300);
+		$("#left").animate({width: '50%'}, 300);
+		$("#left").fadeIn()
+		$("#right").fadeIn()
+		$("#rightcolor").animate({width: 0}, 300);
+		$("#leftcolor").animate({width: 0}, 300);
+		$(".name").fadeIn();
+		$(".name").css("color", "#323232");
+		$(".title").css("color", "#323232");
+		$(".mobilenav").fadeOut();
+		homepage = true	
+	}
+
+	// WORK SECTION
+	$("#art").click(function() {
+		$("#art").css("color", "white");
+		$("#design").css("color", "#323232");
+		$("#cs").css("color", "#323232");
+		$(".design").fadeOut();
+		$(".cs").fadeOut();
+		$(".art").fadeIn();
 	});
 
-	// DECLARED
-	let task = {"Google": {
-					"img": "google.jpg",
-					"url": "https://google.com",
-					"descrip": "In summer 2017, I interned at Google's Irvine campus as part of their EP program, where I worked on the front end of an internal data visualization tool, using JavaScript, d3, AngularJs, and CSS"
-				},
-				"Web Design DeCal": {
-					"img": "wdd.jpg",
-					"url": "http://wdd.io",
-					"descrip": "I'm a head instructor of the Web Design DeCal, a course that teaches front end web design at UC Berkeley. We focus on teaching HTML, CSS, jQuery, and UI/UX principles to students of all majors"
-				},
-				"Blueprint": {
-					"img": "bp.jpg",
-					"url": "https://calblueprint.io",
-					"descrip": "Blueprint is a tech club at Berkeley that develops pro-bono applications for non profits. I currently work on the Re-plate team, which helps connect businesses with surplus food to local shelters."
-				},
-				"Cal Hacks": {
-					"img": "calhacks.jpg", 
-					"url": "https://calhacks.io",
-					"descrip": "I work on redefining what it means to be a hacker and creator as the diversity director at Cal Hacks. In 2017, I launched CubStart, a mentorship program that guides beginner hackers through their first hackathon" 
-				},
-				
-				"Daily Cal": {
-					"img": "dailycal.jpg", 
-					"url": "https://projects.dailycal.org",
-					"descrip": "As a project developer at the Daily Californian, I use data and code to create interactive visual stories about UC Berkeley and the surrounding city"
-				},
-				// "Innovative Design": {
-				// 	"img": "innod.jpg",
-				// 	"url": "http://innovativedesign.club",
-				// 	"descrip": "I'm a graphic designer at Innovative design, a student-run creative agency at UC Berkeley, where I do various design work for off-campus clients using my favorite Adobe Creative Cloud tools!"
-				// }
-	}
+	$("#design").click(function() {
+		$("#design").css("color", "white");
+		$("#art").css("color", "#323232");
+		$("#cs").css("color", "#323232");
 
-	// ACTIVITIES
-
-	/** Shortens length of string to given character length and adds ellipses **/
-	let shorten = function(str, char) {
-		return str.substring(0, char - 3) + '... '
-	} 
-
-	/** Creates DOM structure for mobile responsiveness **/
-	let calculateActivities = function() {
-		if ($(window).width() > 900) {
-			$("#mobile-activities").hide();
-			$("#together").show();
-			if (!$("#tasks").text()) { // populate with tasks.
-				Object.keys(task).forEach(function(tsk) {
-					let t = task[tsk]
-					$("#tasks").append('<a href="' + t.url + '" target="_blank">' + tsk + '</a>');
-				})
-			}
-		} else {
-			$("#together").hide();
-			$("#mobile-activities").show()
-			if (!$("#mobile-activities").text()) {
-				Object.keys(task).forEach(function(tsk) {
-					let t = task[tsk]
-					let descrip = shorten(t.descrip, 85);	
-					$("#mobile-activities").append('<div class="activity-card"><a href="' + t.url + '" class="card-title">' + tsk + '</a><div class="card-description short">' + descrip + '</div><a class="read-more">read more</a></div>');
-				})
-			}
-		}
-	}
-
-	calculateActivities();
-
-	$(window).resize(function() {
-		calculateActivities();
-	})
-
-	$(".read-more").click(function() {
-		let $parent = $(this).prev()
-		let title = $parent.prev('.card-title').text()
-		let fullText = task[title].descrip
-		if ($parent.hasClass("short")) {
-			$parent.removeClass("short");
-			$parent.text(fullText);
-			$(this).text("hide");
-		} else {
-			$parent.addClass("short");
-			$parent.text(shorten(fullText, 85));
-			$(this).text("read more");
-		}
-	})
-
-	let defaultText = true;
-	
-	// Hovering
-	$("#tasks > a").hover(function() {
-
-		let selectedTask = task[this.textContent];
-		let image = $("#background-img img");
-		let description = $("#description p");
-		let newSrc = "assets/img/" + selectedTask.img
-
-		description.text(selectedTask.descrip);
-		description.removeClass("flash-class");      
-		$("#description").show()
-
-		if (image.attr("src") != newSrc) {
-			image.attr("src", newSrc)
-			let newImage = image.clone();
-			newImage.appendTo("#background-img")
-			newImage.attr("src", newSrc);
-
-			image.remove();
-		}
-	}, function() {}) 
-
-	// PORTFOLIO
-	let oldText;
-	$(".coming-soon").hover(function() {
-		oldText = $(this).text();
-		$(this).text(oldText + " (Coming Soon!)");
-	}, function() {
-		$(this).text(oldText);
-	})
-
-	// Waypoints
-	let firstScrollthrough = true;
-
-	$("#activities").waypoint(function() {
-		changeOpacity("#mobile-activities");
-
-		if (firstScrollthrough) {
-			$("#description").css("transform", "scale(1.2)");
-			setTimeout(function() {
-				$("#together").css("transform", "scale(1)");
-				changeOpacity("#together");
-				$("#description").css("transform", "scale(1)");
-				$("#description p").addClass("flash-class");
-			}, 900)
-
-			$("#tasks > a").each(function(index, elem) {
-				setTimeout(function() {
-					changeOpacity($(elem));
-				}, 500 + 250 * index);
-			})
-		}
-		firstScrollthrough = false;
-	})
-
-	$("#portfolio").waypoint(function() {
-		changeOpacity(".card:first-child, .card:nth-child(2)")
-		setTimeout(function() {
-			changeOpacity(".card:nth-child(3), .card:nth-child(4)");
-		}, 200);
-
-		for (i = 1; i < 4; i++) {
-			var elem = $(".card li:nth-child(" + i + ")");
-			(function(elem, i) {
-        		setTimeout(function() {
-        			changeOpacity(elem); 
-        		}, 200 * (i + 2));
-        	})(elem, i);
-		}
-	})
-
-	$("#contact").waypoint({
-		handler: function() {
-			$("#background-fill").css("height", "100%");
-			setTimeout(function() {
-				changeOpacity("#contact .name, #contact a, #contact p");
-			}, 1200)
-		},
-		offset: '60%'
-	})
-
-	// Scrolllll
-
-	 // This is a functions that scrolls to #{blah}link
-	let goToByScroll = function(id) {
-	    // Remove "link" from the ID
-	    id = id.replace("-link", "");
-
-	    // Scroll
-	    $('html,body').animate({
-	        scrollTop: $("#"+id).offset().top + 20},
-	        'slow');
-	}
-
-	$("#nav > a").click(function(e) { 
-	      // Prevent a page reload when a link is pressed
-	    e.preventDefault(); 
-	      // Call the scroll function
-	    goToByScroll(this.id);           
+		$(".art").fadeOut();
+		$(".cs").fadeOut();
+		$(".design").fadeIn();
 	});
 
-	var changeOpacity = (elem) => {
-		$(elem).css("opacity", 1);
+	$("#cs").click(function() {
+		$("#cs").css("color", "white");
+		$("#design").css("color", "#323232");
+		$("#art").css("color", "#323232");
+
+		$(".art").fadeOut();
+		$(".design").fadeOut();
+		$(".cs").fadeIn();
+	});
+
+	$("#navbar").click(function(event){
+		event.stopPropagation();
+	});
+
+	// IMAGES
+
+	var notexpanded = true
+	if ( $(window).width() > 768) {
+		$(".overlay").hover(function() {
+			$(this).animate({opacity: 0}, 300);
+			var num = $(this).attr('class').split(' ')[1]
+			$("." + num).fadeIn()
+		}, function() {
+			if (notexpanded) {
+				$(".textgroup").css("display", "none");
+				$(this).animate({opacity: 1}, 300);
+				var num = $(this).attr('class').split(' ')[1]
+			}
+		});
 	}
+
+
+	$(".picturetile").click(function() {
+		if ($(window).width() > 768) {
+			$(".behance").fadeIn()
+			$(".textcontainer").fadeIn()
+		}
+		var num = $(this).children(':nth-child(1)').attr('class').split(' ')[1]
+		console.log(num);
+		var image = $(this).children(':nth-child(2)').attr('src')
+		var link = $(this).children(':nth-child(3)').attr('href')
+		console.log(link);
+		$("." + num).fadeIn();
+		$("#expandoverlay").fadeIn();
+		$("#expandedimage").append('<img id="expanded" src="' + image + '">');
+		if (link) {
+			$("#expanded").wrap('<a href="'+link+'" target="_blank"></a>');
+		}
+		var img = document.getElementById('expanded')
+		if (img.height < img.width) {
+			$(img).width($("#right").width() * 0.8);
+			if ($(img).height() > $("#right").height() * 0.8) {
+				$(img).height($("#right").height() * 0.8);
+				$(img).width("auto");
+			}
+		} else {
+			$(img).height($("#right").height() * 0.8);
+			if ($(img).width() > $("#right").width() * 0.8) {
+				$(img).width($("#right").width() * 0.8)
+				$(img).height("auto")
+			}
+		}
+		
+		notexpanded = false
+	});
+
+	$("#expandoverlay").click(function() {
+		$("#expandedimage").empty();
+		$("#expandoverlay").fadeOut();
+		$(".textgroup").fadeOut();
+		if ($(window).width() <= 768) {
+			$(".textcontainer").fadeOut();
+		}
+		$(".behance").fadeOut()
+		$(".overlay").animate({opacity: 1}, 300);
+		event.stopPropagation();
+		notexpanded = true
+	})
+
+	$('#expandedimage').click(function(event){
+    	event.stopPropagation();
+ 	});
+
+
 });
